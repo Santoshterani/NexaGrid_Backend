@@ -1,0 +1,19 @@
+# Development only. These values are public in this repository; never use them anywhere else.
+spring:
+  datasource:
+    password: telecom_dev_pw
+app:
+  jwt:
+    secret: dev-only-secret-dev-only-secret-dev-only-secret
+  security:
+    otp-pepper: dev-only-pepper
+    totp-encryption-key: MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=
+    cookie-secure: false
+  dev:
+    log-otp: true     # prints one-time codes in the backend console instead of emailing them
+  payments:
+    gateway: mock          # development stand-in for a payment provider
+    mock-secret: dev-only-mock-gateway-secret
+  inbound:
+    secret: dev-only-inbound-webhook-secret
+    simulator: true        # staff can simulate an inbound email, SMS or call from the Support page

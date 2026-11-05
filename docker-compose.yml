@@ -1,0 +1,21 @@
+# Local development database only. The backend and frontend run on your machine (see README).
+# Redis and Kafka are intentionally absent in Phase 1; they are added when a feature needs them.
+services:
+  mysql:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root_dev_pw
+      MYSQL_DATABASE: telecom_platform
+      MYSQL_USER: telecom
+      MYSQL_PASSWORD: telecom_dev_pw
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_0900_ai_ci", "--default-time-zone=+00:00", "--log-bin-trust-function-creators=1"]
+    ports: ["127.0.0.1:3306:3306"]
+    volumes: ["mysql_data:/var/lib/mysql"]
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot_dev_pw"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+volumes:
+  mysql_data:

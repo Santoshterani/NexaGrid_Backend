@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: telecom-platform
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/telecom_platform}
+    username: ${DB_USER:telecom}
+    password: ${DB_PASSWORD:}
+  flyway:
+    enabled: true
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 6MB
+server:
+  port: 8080
+  error:
+    include-message: never
+    include-stacktrace: never
+    include-binding-errors: never
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+app:
+  jwt:
+    secret: ${JWT_SECRET:}            # at least 32 bytes; the app refuses to start without it
+    issuer: telecom-platform
+    access-minutes: 15
+    refresh-days: 7
+  security:
+    otp-pepper: ${OTP_PEPPER:}
+    totp-encryption-key: ${TOTP_ENCRYPTION_KEY:}   # base64 of exactly 32 bytes
+    cookie-secure: ${COOKIE_SECURE:true}
+    totp-issuer: Telecom Platform
+  dev:
+    log-otp: false
+  payments:
+    gateway: ${PAYMENTS_GATEWAY:none}        # none | mock (a real provider adapter is added later)
+    mock-secret: ${PAYMENTS_MOCK_SECRET:}
+  inbound:
+    secret: ${INBOUND_SECRET:}          # shared secret for signed email/SMS/call webhooks; empty = the endpoints are switched off
+    simulator: false
